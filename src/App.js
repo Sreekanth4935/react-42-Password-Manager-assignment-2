@@ -2,6 +2,8 @@ import './App.css'
 import {Component} from 'react'
 import {v4 as uuidv4} from 'uuid'
 
+const colorList = ['yellow', 'green', 'orange', 'brown', 'blue']
+
 class App extends Component {
   state = {
     userDetailsList: [],
@@ -10,7 +12,7 @@ class App extends Component {
     passwordInput: '',
     isTicked: false,
     searchedValue: '',
-    newSearchedList: [],
+    // newSearchedList: [],
   }
 
   deletePassword = id => {
@@ -37,30 +39,25 @@ class App extends Component {
     this.setState({searchedValue: event.target.value})
   }
 
-  //   showPasswordDetails = () => {
-
-  //     return (
-
-  //     )
-  //   }
-
   handleSubmit = event => {
     event.preventDefault()
+
+    const newClassValue = colorList[Math.floor(Math.random() * 5)]
     const {websiteInput, userNameInput, passwordInput} = this.state
-    this.setState({
-      websiteInput: '',
-      userNameInput: '',
-      passwordInput: '',
-    })
+
     const addNewPassword = {
       id: uuidv4(),
       website: websiteInput,
       username: userNameInput,
       password: passwordInput,
+      classValue: newClassValue,
     }
 
     this.setState(prevState => ({
       userDetailsList: [...prevState.userDetailsList, addNewPassword],
+      websiteInput: '',
+      userNameInput: '',
+      passwordInput: '',
     }))
   }
 
@@ -192,7 +189,7 @@ class App extends Component {
                   return (
                     <li className="list-item" key={eachUser.id}>
                       <div className="profile">
-                        <p className="profile-name">
+                        <p className={`profile-name ${eachUser.classValue}`}>
                           {eachUser.username.slice(0, 1).toLocaleUpperCase()}
                         </p>
                       </div>
